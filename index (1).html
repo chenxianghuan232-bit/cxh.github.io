@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="zh-CN" id="htmlRoot">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>陈向欢 · Xianghuan Chen</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=DM+Sans:wght@300;400;500&family=Noto+Serif+SC:wght@300;400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#0d0d0d;--bg2:#111;--bg3:#181818;
+  --line:rgba(255,255,255,.07);
+  --text:#e8e4de;--muted:#7a7570;
+  --accent:#c9a96e;--accent2:#8fa89c;--white:#f5f2ed;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-weight:300;line-height:1.6;cursor:none;}
+
+.cursor{width:8px;height:8px;background:var(--accent);border-radius:50%;position:fixed;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);}
+.cursor-ring{width:32px;height:32px;border:1px solid rgba(201,169,110,.4);border-radius:50%;position:fixed;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .2s,height .2s,border-color .2s;}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:22px 60px;display:flex;justify-content:space-between;align-items:center;background:linear-gradient(to bottom,rgba(13,13,13,.96),transparent);backdrop-filter:blur(4px);}
+.nav-logo{font-family:'Cormorant Garamond',serif;font-size:17px;letter-spacing:.15em;color:var(--white);font-style:italic;}
+.nav-links{display:flex;gap:28px;align-items:center;}
+.nav-links a{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .3s;}
+.nav-links a:hover{color:var(--white);}
+.lang-btn{background:none;border:1px solid rgba(255,255,255,.15);color:var(--muted);font-size:10px;letter-spacing:.15em;padding:5px 12px;cursor:none;transition:all .3s;font-family:'DM Sans',sans-serif;}
+.lang-btn:hover,.lang-btn.active{border-color:var(--accent);color:var(--accent);background:rgba(201,169,110,.07);}
+
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:flex-end;padding:0 60px 80px;position:relative;overflow:hidden;}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 70% 40%,rgba(201,169,110,.06) 0%,transparent 70%),radial-gradient(ellipse 40% 60% at 20% 70%,rgba(143,168,156,.05) 0%,transparent 60%);}
+.hero-grid{position:absolute;inset:0;opacity:.022;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:80px 80px;}
+.hero-eyebrow{font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--accent);margin-bottom:22px;opacity:0;animation:fadeUp .8s .2s forwards;}
+.hero-name{font-family:'Cormorant Garamond',serif;font-size:clamp(60px,9vw,128px);font-weight:300;line-height:.92;letter-spacing:-.02em;color:var(--white);opacity:0;animation:fadeUp .9s .4s forwards;}
+.hero-name em{font-style:italic;color:var(--accent);}
+.hero-tagline{margin-top:26px;font-size:11px;letter-spacing:.25em;text-transform:uppercase;color:var(--muted);opacity:0;animation:fadeUp .9s .6s forwards;}
+.hero-tagline span{color:rgba(255,255,255,.22);margin:0 10px;}
+.hero-scroll{position:absolute;right:60px;bottom:80px;display:flex;flex-direction:column;align-items:center;gap:12px;opacity:0;animation:fadeIn 1s 1.2s forwards;}
+.hero-scroll-line{width:1px;height:54px;background:linear-gradient(to bottom,transparent,var(--accent));animation:pulse 2s 1.5s ease infinite;}
+.hero-scroll span{font-size:9px;letter-spacing:.25em;text-transform:uppercase;color:var(--muted);writing-mode:vertical-rl;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+section{padding:108px 60px;}
+.section-label{font-size:9px;letter-spacing:.35em;text-transform:uppercase;color:var(--accent);margin-bottom:52px;display:flex;align-items:center;gap:16px;}
+.section-label::after{content:'';flex:1;max-width:48px;height:1px;background:var(--accent);opacity:.4;}
+
+.about{border-top:1px solid var(--line);}
+.about-grid{display:grid;grid-template-columns:1fr 2fr;gap:80px;align-items:start;}
+.about-title{font-family:'Cormorant Garamond',serif;font-size:clamp(32px,4vw,50px);font-weight:300;line-height:1.1;color:var(--white);}
+.about-title em{font-style:italic;color:var(--accent);}
+.about-bio{font-size:14px;color:rgba(232,228,222,.68);line-height:1.95;margin-bottom:48px;max-width:560px;}
+.pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;}
+.pillar{background:var(--bg3);padding:26px 20px;border:1px solid var(--line);transition:border-color .3s,background .3s;}
+.pillar:hover{border-color:rgba(201,169,110,.3);background:#1d1d1d;}
+.pillar-num{font-family:'Cormorant Garamond',serif;font-size:11px;letter-spacing:.2em;color:var(--accent);margin-bottom:12px;}
+.pillar-title{font-size:12px;font-weight:500;color:var(--white);margin-bottom:7px;}
+.pillar-desc{font-size:11px;color:var(--muted);line-height:1.75;}
+
+.experience{border-top:1px solid var(--line);background:var(--bg2);}
+.exp-item{display:grid;grid-template-columns:210px 1fr;gap:52px;padding:42px 0;border-bottom:1px solid var(--line);}
+.exp-date{font-size:11px;letter-spacing:.1em;color:var(--muted);margin-bottom:5px;}
+.exp-company{font-size:12px;color:var(--accent);letter-spacing:.05em;font-weight:500;}
+.exp-role{font-family:'Cormorant Garamond',serif;font-size:25px;font-weight:300;color:var(--white);margin-bottom:13px;line-height:1.2;}
+.exp-desc{font-size:13px;color:var(--muted);line-height:1.9;max-width:580px;}
+.exp-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:16px;}
+.exp-tag{font-size:10px;letter-spacing:.07em;padding:3px 10px;border:1px solid var(--line);color:var(--muted);text-transform:uppercase;}
+
+.portfolio{border-top:1px solid var(--line);}
+.portfolio-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:36px;}
+.portfolio-title{font-family:'Cormorant Garamond',serif;font-size:clamp(26px,3.5vw,42px);font-weight:300;color:var(--white);}
+.filter-tabs{display:flex;gap:3px;}
+.filter-tab{font-size:10px;letter-spacing:.12em;text-transform:uppercase;padding:6px 13px;background:none;border:1px solid var(--line);color:var(--muted);cursor:none;transition:all .2s;font-family:'DM Sans',sans-serif;}
+.filter-tab.active,.filter-tab:hover{border-color:var(--accent);color:var(--accent);background:rgba(201,169,110,.05);}
+.portfolio-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:3px;}
+.portfolio-item{position:relative;overflow:hidden;aspect-ratio:3/4;background:var(--bg3);cursor:none;}
+.portfolio-item.wide{grid-column:span 2;aspect-ratio:16/9;}
+.portfolio-item img{width:100%;height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.25,.46,.45,.94),filter .4s;filter:brightness(.85);}
+.portfolio-item:hover img{transform:scale(1.04);filter:brightness(.3);}
+.portfolio-overlay{position:absolute;inset:0;padding:22px;display:flex;flex-direction:column;justify-content:flex-end;opacity:0;transition:opacity .4s;}
+.portfolio-item:hover .portfolio-overlay{opacity:1;}
+.portfolio-category{font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:6px;}
+.portfolio-prompt{font-size:11px;color:rgba(255,255,255,.8);line-height:1.6;}
+.portfolio-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:var(--bg3);color:var(--muted);font-size:10px;letter-spacing:.08em;border:1px solid var(--line);text-align:center;padding:14px;}
+
+.publications{border-top:1px solid var(--line);background:var(--bg2);}
+.pub-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:3px;}
+.pub-card{padding:34px;background:var(--bg3);border:1px solid var(--line);transition:border-color .3s;position:relative;overflow:hidden;}
+.pub-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--accent);transform:scaleY(0);transition:transform .4s;transform-origin:bottom;}
+.pub-card:hover{border-color:rgba(201,169,110,.2);}
+.pub-card:hover::before{transform:scaleY(1);}
+.pub-badge{display:inline-block;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--bg);background:var(--accent);padding:3px 9px;margin-bottom:14px;}
+.pub-title{font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:300;color:var(--white);line-height:1.45;margin-bottom:10px;}
+.pub-meta{font-size:11px;color:var(--muted);line-height:1.7;}
+.pub-role{font-size:10px;letter-spacing:.08em;color:var(--accent2);margin-top:7px;text-transform:uppercase;}
+
+.awards{border-top:1px solid var(--line);}
+.awards-split{display:grid;grid-template-columns:1fr 1fr;gap:60px;}
+.awards-col-title{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:300;color:var(--white);margin-bottom:28px;}
+.award-row{display:flex;align-items:flex-start;gap:18px;padding:18px 0;border-bottom:1px solid var(--line);}
+.award-row:last-child{border-bottom:none;}
+.award-num{font-family:'Cormorant Garamond',serif;font-size:30px;color:rgba(201,169,110,.2);line-height:1;flex-shrink:0;width:34px;}
+.award-title{font-size:13px;color:var(--white);margin-bottom:4px;font-weight:400;line-height:1.4;}
+.award-year{font-size:11px;color:var(--muted);}
+.honour-row{padding:15px 0;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;}
+.honour-row:last-child{border-bottom:none;}
+.honour-name{font-size:13px;color:var(--white);}
+.honour-year{font-size:11px;color:var(--muted);}
+
+.campus{border-top:1px solid var(--line);background:var(--bg2);}
+.campus-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;}
+.campus-card{padding:34px;background:var(--bg3);border:1px solid var(--line);transition:border-color .3s;}
+.campus-card:hover{border-color:rgba(201,169,110,.2);}
+.campus-type{font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:12px;}
+.campus-title{font-size:15px;font-weight:500;color:var(--white);margin-bottom:4px;line-height:1.3;}
+.campus-org{font-size:12px;color:var(--accent2);margin-bottom:6px;}
+.campus-date{font-size:11px;color:var(--muted);margin-bottom:13px;}
+.campus-desc{font-size:12px;color:var(--muted);line-height:1.8;}
+
+.contact{border-top:1px solid var(--line);min-height:46vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;}
+.contact-eyebrow{font-size:10px;letter-spacing:.35em;text-transform:uppercase;color:var(--accent);margin-bottom:26px;}
+.contact-title{font-family:'Cormorant Garamond',serif;font-size:clamp(42px,7vw,90px);font-weight:300;color:var(--white);line-height:1;margin-bottom:40px;}
+.contact-title em{font-style:italic;color:var(--accent);}
+.contact-links{display:flex;gap:34px;}
+.contact-link{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .3s;position:relative;}
+.contact-link::after{content:'';position:absolute;bottom:-2px;left:0;right:0;height:1px;background:var(--accent);transform:scaleX(0);transition:transform .3s;}
+.contact-link:hover{color:var(--white);}
+.contact-link:hover::after{transform:scaleX(1);}
+
+footer{padding:26px 60px;border-top:1px solid var(--line);display:flex;justify-content:space-between;font-size:11px;color:var(--muted);letter-spacing:.08em;}
+
+.lightbox{position:fixed;inset:0;background:rgba(0,0,0,.95);z-index:1000;display:none;align-items:center;justify-content:center;}
+.lightbox.open{display:flex;}
+.lightbox img{max-width:85vw;max-height:85vh;object-fit:contain;}
+.lightbox-close{position:absolute;top:26px;right:42px;font-size:24px;color:var(--muted);cursor:none;transition:color .2s;background:none;border:none;font-family:'DM Sans',sans-serif;}
+.lightbox-close:hover{color:var(--white);}
+
+/* Google Translate override — hide the banner */
+.goog-te-banner-frame,.skiptranslate{display:none!important;}
+body{top:0!important;}
+.goog-te-combo{display:none!important;}
+
+.translate-notice{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:rgba(13,13,13,.92);border:1px solid rgba(201,169,110,.35);color:var(--accent);font-size:11px;letter-spacing:.1em;padding:10px 22px;z-index:500;display:none;backdrop-filter:blur(8px);white-space:nowrap;}
+
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .65s ease,transform .65s ease;}
+.reveal.visible{opacity:1;transform:none;}
+
+@media(max-width:768px){
+  nav{padding:18px 22px;}
+  .nav-links{gap:14px;}
+  section{padding:68px 22px;}
+  .hero{padding:0 22px 56px;}
+  .about-grid,.awards-split{grid-template-columns:1fr;gap:32px;}
+  .pillars,.campus-grid{grid-template-columns:1fr;}
+  .exp-item{grid-template-columns:1fr;gap:10px;}
+  .portfolio-grid{grid-template-columns:repeat(2,1fr);}
+  .pub-grid{grid-template-columns:1fr;}
+  footer{flex-direction:column;gap:8px;}
+}
+</style>
+</head>
+<body>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+<div class="translate-notice" id="tNotice">正在翻译… Translating…</div>
+<div id="google_translate_element" style="position:absolute;top:-9999px;left:-9999px;"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">CXH</div>
+  <div class="nav-links">
+    <a href="#about">关于</a>
+    <a href="#experience">经历</a>
+    <a href="#portfolio">作品</a>
+    <a href="#publications">发表</a>
+    <a href="#awards">荣誉</a>
+    <a href="#campus">校园</a>
+    <a href="#contact">联系</a>
+    <button class="lang-btn active" id="btnZh">中文</button>
+    <button class="lang-btn" id="btnEn">EN</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-eyebrow">Portfolio · 2025</div>
+  <h1 class="hero-name">陈向欢<br><em>Xianghuan Chen</em></h1>
+  <p class="hero-tagline">
+    AI-Native Operator<span>·</span>Content Strategist<span>·</span>AIGC Creator
+  </p>
+  <div class="hero-scroll">
+    <div class="hero-scroll-line"></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="section-label">关于我 · About</div>
+  <div class="about-grid">
+    <div><h2 class="about-title">内容<br>遇见 <em>AI</em></h2></div>
+    <div>
+      <p class="about-bio">深圳大学传播学院新闻学在读（2026届），拥有字节跳动（剪映CapCut）、腾讯 AI 平台部、TikTok 电商等六段实习经历。擅长将 AI 能力转化为有温度的内容产品——从冷启动 140+ AI 设计模板到构建角色 AI 模型数据管线，横跨产品运营、内容创作与数据标注三个维度。曾赴韩国汉阳大学交换，发表 4 篇学术成果，包含 2 篇 AEJMC 顶会独作、1 篇 CSSCI 及 1 篇国际会议论文。</p>
+      <div class="pillars">
+        <div class="pillar reveal">
+          <div class="pillar-num">01</div>
+          <div class="pillar-title">AI 产品运营</div>
+          <div class="pillar-desc">熟悉 AI 产品全流程运营，擅长内容冷启、体验优化与端内功能宣推，具备完整项目落地能力</div>
+        </div>
+        <div class="pillar reveal">
+          <div class="pillar-num">02</div>
+          <div class="pillar-title">内容与审美</div>
+          <div class="pillar-desc">拥有 AIGC 设计作品集，社媒洞察深刻，具备高质量内容创作与多平台运营能力</div>
+        </div>
+        <div class="pillar reveal">
+          <div class="pillar-num">03</div>
+          <div class="pillar-title">学术与研究</div>
+          <div class="pillar-desc">4 篇学术成果独立发表，英语能力扎实（雅思 7.0），逻辑严密，具备较强研究与写作能力</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section class="experience" id="experience">
+  <div class="section-label">工作经历 · Work Experience</div>
+
+  <div class="exp-item reveal">
+    <div><div class="exp-date">2025.11 — 至今</div><div class="exp-company">字节跳动 · CapCut 剪映</div></div>
+    <div>
+      <div class="exp-role">AI 产品运营实习生</div>
+      <div class="exp-desc">主导 AI Design 首页体验全链路优化，梳理视觉交互与内容分发核心问题，锚定「模板点击率 + 内容精准度」核心目标，搭建「风格-场景-质感」三维评估体系。超额完成 100+ 模板冷启目标，累计上线 140+ 原创模板，完成 300+ 存量案例分类，搭建标准化素材库。负责 Seedream 5.0、Seedance 2.0 功能的 APP/Web/移动端内宣推，策划专题展示位策略，提升新功能曝光与用户渗透率。完成竞品调研，梳理 AI 产品 Skills 图谱，形成技能矩阵与成长路径。</div>
+      <div class="exp-tags"><span class="exp-tag">AI Design</span><span class="exp-tag">内容冷启</span><span class="exp-tag">UX 优化</span><span class="exp-tag">AIGC</span><span class="exp-tag">竞品分析</span></div>
+    </div>
+  </div>
+
+  <div class="exp-item reveal">
+    <div><div class="exp-date">2024.12 — 2025.09</div><div class="exp-company">腾讯科技 · AI 平台部</div></div>
+    <div>
+      <div class="exp-role">AI 内容运营实习生</div>
+      <div class="exp-desc">负责王者荣耀灵宝 AI 对话模型 SFT 阶段高质量数据生产，日均处理及校验超 600 条数据，构建意图识别与安全性多维标注体系。设计评测案例，分析模型 bad case，通过人工撰写、多轮改写优化数据，提升知识遵循率与对话流畅度。参与光与夜之恋角色模型及多模态训练项目，构建角色知识库，产出 ASR/TTS/NLG 多模态训练数据集及 SFT 数据，助力负责模块模型准确回复率提升约 20%。</div>
+      <div class="exp-tags"><span class="exp-tag">SFT 数据</span><span class="exp-tag">NLG</span><span class="exp-tag">模型评测</span><span class="exp-tag">多模态</span><span class="exp-tag">数据标注</span></div>
+    </div>
+  </div>
+
+  <div class="exp-item reveal">
+    <div><div class="exp-date">2024.03 — 2024.08</div><div class="exp-company">字节跳动 · TikTok Shop</div></div>
+    <div>
+      <div class="exp-role">电商运营实习生</div>
+      <div class="exp-desc">负责 TikTok Shop 全托管 3C 数码行业商家运营，独立对接头部商家 19 家、中小商家 500+ 家、20 余家 MCN 机构，促成超 1000 单合作。提出综合「商家响应率 + GMV + 商品好评率」的数据分析方法，筛选高质可持续合作商家，不断优化运营流程。科普 US/UK/SA 当地法规政策，打造直播 & 短视频内容场，提高商品曝光率与成交，减少下架率。</div>
+      <div class="exp-tags"><span class="exp-tag">TikTok Shop</span><span class="exp-tag">商家运营</span><span class="exp-tag">MCN</span><span class="exp-tag">数据分析</span><span class="exp-tag">跨境电商</span></div>
+    </div>
+  </div>
+
+  <div class="exp-item reveal">
+    <div><div class="exp-date">2023.11 — 2024.03</div><div class="exp-company">腾讯科技 · 微信事业群</div></div>
+    <div>
+      <div class="exp-role">行政助理实习生</div>
+      <div class="exp-desc">统筹规划大型企业活动（年会、业务分享会等），负责策划、预算编制与现场执行，保障 200+ 人规模活动顺利落地。协助日常运营，协调高管差旅安排、处理行政事务，提升部门沟通效率与整体运转。</div>
+      <div class="exp-tags"><span class="exp-tag">活动策划</span><span class="exp-tag">行政管理</span><span class="exp-tag">跨部门协作</span></div>
+    </div>
+  </div>
+
+  <div class="exp-item reveal">
+    <div><div class="exp-date">2023.07 — 2023.11</div><div class="exp-company">吉比特 / 雷霆游戏</div></div>
+    <div>
+      <div class="exp-role">内容运营实习生</div>
+      <div class="exp-desc">策划并输出微信、抖音、小红书等新媒体渠道内容，参与 5 个账号超 60 条广告计划投放，根据数据调整策略；独立制作平面电商海报 6 份，总浏览量 50W+。协助对接 KOL/KOC，制作达人 Brief，提供文案创意；制作信息流广告，整合分析每日直播数据；撰写视频脚本，进行拍摄与后期，产出视频 10+ 条，抖音最高单视频点赞量 3K+。</div>
+      <div class="exp-tags"><span class="exp-tag">社媒运营</span><span class="exp-tag">KOL 对接</span><span class="exp-tag">内容制作</span><span class="exp-tag">数据分析</span><span class="exp-tag">信息流广告</span></div>
+    </div>
+  </div>
+
+  <div class="exp-item reveal">
+    <div><div class="exp-date">2022.07 — 2022.09</div><div class="exp-company">深圳特区报</div></div>
+    <div>
+      <div class="exp-role">记者实习生</div>
+      <div class="exp-desc">为「深圳青年」栏目调研采写深度特稿，代表作《世界冠军的双向奔赴》经多家媒体转载，全网阅读量超 10 万。负责 ReadTok APP 大湾区频道内容编审，独立审核优化 200+ 篇文章，通过率 100%，保障内容质量与正向传播导向。</div>
+      <div class="exp-tags"><span class="exp-tag">深度报道</span><span class="exp-tag">内容编审</span><span class="exp-tag">新闻采写</span></div>
+    </div>
+  </div>
+
+</section>
+
+<!-- PORTFOLIO -->
+<section class="portfolio" id="portfolio">
+  <div class="portfolio-header">
+    <div>
+      <div class="section-label">AIGC 作品集 · Portfolio</div>
+      <div class="portfolio-title">精选作品</div>
+    </div>
+    <div class="filter-tabs">
+      <button class="filter-tab active" data-filter="all">全部</button>
+      <button class="filter-tab" data-filter="social">社媒</button>
+      <button class="filter-tab" data-filter="poster">海报</button>
+      <button class="filter-tab" data-filter="cover">封面</button>
+    </div>
+  </div>
+  <div class="portfolio-grid" id="portfolioGrid">
+    <div class="portfolio-item wide" data-category="poster">
+      <div class="portfolio-placeholder">[ 替换为真实图片 poster_01.jpg ]<br>将图片放入 /portfolio/ 文件夹</div>
+      <div class="portfolio-overlay"><div class="portfolio-category">Poster · AI Design</div><div class="portfolio-prompt">在这里填写真实 Prompt</div></div>
+    </div>
+    <div class="portfolio-item" data-category="social">
+      <div class="portfolio-placeholder">[ social_01.jpg ]</div>
+      <div class="portfolio-overlay"><div class="portfolio-category">Social Media</div><div class="portfolio-prompt">在这里填写真实 Prompt</div></div>
+    </div>
+    <div class="portfolio-item" data-category="cover">
+      <div class="portfolio-placeholder">[ cover_01.jpg ]</div>
+      <div class="portfolio-overlay"><div class="portfolio-category">Video Cover</div><div class="portfolio-prompt">在这里填写真实 Prompt</div></div>
+    </div>
+    <div class="portfolio-item" data-category="social">
+      <div class="portfolio-placeholder">[ social_02.jpg ]</div>
+      <div class="portfolio-overlay"><div class="portfolio-category">Social Media</div><div class="portfolio-prompt">在这里填写真实 Prompt</div></div>
+    </div>
+    <div class="portfolio-item" data-category="poster">
+      <div class="portfolio-placeholder">[ poster_02.jpg ]</div>
+      <div class="portfolio-overlay"><div class="portfolio-category">Poster</div><div class="portfolio-prompt">在这里填写真实 Prompt</div></div>
+    </div>
+    <div class="portfolio-item wide" data-category="cover">
+      <div class="portfolio-placeholder">[ cover_02.jpg ]</div>
+      <div class="portfolio-overlay"><div class="portfolio-category">Video Cover · Wide</div><div class="portfolio-prompt">在这里填写真实 Prompt</div></div>
+    </div>
+    <div class="portfolio-item" data-category="poster">
+      <div class="portfolio-placeholder">[ poster_03.jpg ]</div>
+      <div class="portfolio-overlay"><div class="portfolio-category">Poster</div><div class="portfolio-prompt">在这里填写真实 Prompt</div></div>
+    </div>
+    <div class="portfolio-item" data-category="social">
+      <div class="portfolio-placeholder">[ social_03.jpg ]</div>
+      <div class="portfolio-overlay"><div class="portfolio-category">Social Media</div><div class="portfolio-prompt">在这里填写真实 Prompt</div></div>
+    </div>
+  </div>
+  <p style="margin-top:32px;font-size:11px;color:var(--muted);text-align:center;letter-spacing:.08em;">将图片上传至 GitHub 仓库 /portfolio/ 文件夹，替换 &lt;img src&gt; 即可更新作品集</p>
+</section>
+
+<!-- PUBLICATIONS -->
+<section class="publications" id="publications">
+  <div class="section-label">学术发表 · Publications</div>
+  <div class="pub-grid">
+    <div class="pub-card reveal">
+      <div class="pub-badge">AEJMC 2025 · Oral Presentation</div>
+      <div class="pub-title">Legal Dilemmas in Synthetic Media: Redefining Personality Rights for AI-Generated News Anchors through Empirical Evidence from China</div>
+      <div class="pub-meta">Proceedings of the 2025 AEJMC Annual Conference, San Francisco, USA</div>
+      <div class="pub-role">Independent Researcher</div>
+    </div>
+    <div class="pub-card reveal">
+      <div class="pub-badge">AEJMC 2025 · Poster</div>
+      <div class="pub-title">Self-Stigmatization as Resistance: Anonymity, Subcultural Capital, and the Paradox of Empowerment in East Asian 'Anime Toilet Girls' Communities</div>
+      <div class="pub-meta">Proceedings of the 2025 AEJMC Annual Conference, San Francisco, USA</div>
+      <div class="pub-role">Independent Researcher</div>
+    </div>
+    <div class="pub-card reveal">
+      <div class="pub-badge">CSSCI 扩展版 · 青年记者 · 2025</div>
+      <div class="pub-title">全球新闻学理论：层次聚类与整合路径</div>
+      <div class="pub-meta">《青年记者》2025年第10期，87-93页<br>DOI: 10.15997/j.cnki.qnjz.2025.10.008</div>
+      <div class="pub-role">Research Assistant</div>
+    </div>
+    <div class="pub-card reveal">
+      <div class="pub-badge">国际会议 · SJTU-IAMCR · 2025</div>
+      <div class="pub-title">Virtual-Real Symbiosis: The Communication Experiment of China's Carbon-Neutral Cities in the Metaverse</div>
+      <div class="pub-meta">SJTU-IAMCR Emerging Media Forum, Shanghai, April 2025</div>
+      <div class="pub-role">Independent Researcher · Oral Presentation</div>
+    </div>
+  </div>
+</section>
+
+<!-- AWARDS -->
+<section class="awards" id="awards">
+  <div class="section-label">荣誉奖项 · Awards & Honours</div>
+  <div class="awards-split">
+    <div>
+      <div class="awards-col-title">竞赛奖项</div>
+      <div class="award-row reveal"><div class="award-num">01</div><div><div class="award-title">第八届全国数据新闻大赛 · 全国二等奖</div><div class="award-year">2023.12 · 核心成员 · 户外广告调查研究</div></div></div>
+      <div class="award-row reveal"><div class="award-num">02</div><div><div class="award-title">第四届全国大学生校园媒体大赛 · 全国三等奖</div><div class="award-year">2024.10 · 编辑</div></div></div>
+      <div class="award-row reveal"><div class="award-num">03</div><div><div class="award-title">广东省高校新闻奖·特稿类 · 广东省三等奖</div><div class="award-year">2024.10 · 核心成员</div></div></div>
+      <div class="award-row reveal"><div class="award-num">04</div><div><div class="award-title">挑战杯大学生创业计划竞赛 · 广东省三等奖</div><div class="award-year">2022 · 深圳口述史·科创家民族志田野调查</div></div></div>
+      <div class="award-row reveal"><div class="award-num">05</div><div><div class="award-title">深圳大学优秀特稿奖</div><div class="award-year">2022 · 深圳大学报</div></div></div>
+    </div>
+    <div>
+      <div class="awards-col-title">奖学金与荣誉</div>
+      <div class="honour-row reveal"><div class="honour-name">交流项目奖学金（2025春季学期）</div><div class="honour-year">深圳大学 · 2025</div></div>
+      <div class="honour-row reveal"><div class="honour-name">学业之星奖学金</div><div class="honour-year">深圳大学 · 2022–2023</div></div>
+      <div class="honour-row reveal"><div class="honour-name">公益之星奖学金</div><div class="honour-year">深圳大学 · 2022–2023</div></div>
+      <div class="honour-row reveal"><div class="honour-name">优秀学生干部</div><div class="honour-year">深圳大学 · 2022–2023</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CAMPUS -->
+<section class="campus" id="campus">
+  <div class="section-label">校园经历 · Campus Life</div>
+  <div class="campus-grid">
+    <div class="campus-card reveal">
+      <div class="campus-type">Exchange Program</div>
+      <div class="campus-title">汉阳大学交换生</div>
+      <div class="campus-org">Hanyang University · Seoul, Korea</div>
+      <div class="campus-date">2024.09 — 2025.02</div>
+      <div class="campus-desc">就读于媒体与社会信息学院，修习消费者心理学、英国社会与文学等课程。荣获深圳大学 2025 春季学期交流项目奖学金。</div>
+    </div>
+    <div class="campus-card reveal">
+      <div class="campus-type">Student Media · 副主任</div>
+      <div class="campus-title">党委宣传部 深大报</div>
+      <div class="campus-org">深圳大学</div>
+      <div class="campus-date">2021.09 — 2024.06</div>
+      <div class="campus-desc">负责微信平台内容生产全流程，发稿 8 篇，2 篇被学校官微转载，平均阅读量 1W+。审核新媒体稿件 30 余篇，修改率从 50% 降至 10%。策划「花火」互动栏目，增粉 100+。与深大官微等达成融媒体合作，共同策划 40 周年校庆等重大活动。</div>
+    </div>
+    <div class="campus-card reveal">
+      <div class="campus-type">Student Union · 新媒体部</div>
+      <div class="campus-title">校学生会 新媒体部</div>
+      <div class="campus-org">深圳大学</div>
+      <div class="campus-date">2021.09 — 2022.06</div>
+      <div class="campus-desc">负责「嘎小姆」「校小会」IP 账号日常运营，对接本地商家十余家，发布资讯 100+ 条，粉丝数 5000+。运营学生会公众号及微博，持续 100 天每日发布，任期内粉丝增长 1000+。负责「声螺万象」电台频道周更，平均阅读量 800+。</div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="contact-eyebrow">Get in Touch · 联系我</div>
+  <h2 class="contact-title">期待<br><em>合作</em></h2>
+  <div class="contact-links">
+    <a href="mailto:coastline777@qq.com" class="contact-link">QQ Mail</a>
+    <a href="mailto:xianghuanchen@outlook.com" class="contact-link">Outlook</a>
+    <a href="#" class="contact-link">Resume PDF</a>
+  </div>
+</section>
+
+<footer>
+  <span>© 2025 陈向欢 · Xianghuan Chen</span>
+  <span>深圳大学 · 传播学院 · 新闻学 · 2026届</span>
+</footer>
+
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" id="lightboxClose">×</button>
+  <img id="lightboxImg" src="" alt="">
+</div>
+
+<script>
+// ── Cursor ──
+const cursor=document.getElementById('cursor'),ring=document.getElementById('cursorRing');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cursor.style.left=mx+'px';cursor.style.top=my+'px';});
+(function loop(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(loop);})();
+document.querySelectorAll('a,button,.pillar,.pub-card,.campus-card').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{ring.style.width='46px';ring.style.height='46px';ring.style.borderColor='rgba(201,169,110,.7)';});
+  el.addEventListener('mouseleave',()=>{ring.style.width='32px';ring.style.height='32px';ring.style.borderColor='rgba(201,169,110,.4)';});
+});
+
+// ── Google Translate Language Switch ──
+const notice=document.getElementById('tNotice');
+const btnZh=document.getElementById('btnZh');
+const btnEn=document.getElementById('btnEn');
+let gtReady=false;
+
+window.googleTranslateElementInit=function(){
+  new google.translate.TranslateElement({
+    pageLanguage:'zh-CN',
+    includedLanguages:'en',
+    autoDisplay:false,
+    layout:google.translate.TranslateElement.InlineLayout.SIMPLE
+  },'google_translate_element');
+  gtReady=true;
+};
+
+function loadGT(cb){
+  if(window.google&&window.google.translate){cb();return;}
+  const s=document.createElement('script');
+  s.src='https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+  s.onload=()=>setTimeout(cb,800);
+  document.head.appendChild(s);
+}
+
+function selectLang(lang){
+  const sel=document.querySelector('.goog-te-combo');
+  if(sel){sel.value=lang;sel.dispatchEvent(new Event('change'));}
+}
+
+btnEn.addEventListener('click',()=>{
+  btnEn.classList.add('active');btnZh.classList.remove('active');
+  notice.style.display='block';
+  loadGT(()=>{
+    setTimeout(()=>{selectLang('en');notice.style.display='none';},600);
+  });
+});
+
+btnZh.addEventListener('click',()=>{
+  btnZh.classList.add('active');btnEn.classList.remove('active');
+  notice.style.display='block';
+  loadGT(()=>{
+    setTimeout(()=>{
+      selectLang('zh-CN');
+      // Fallback: reload if translate doesn't restore
+      setTimeout(()=>{
+        const bar=document.querySelector('.goog-te-banner-frame');
+        if(bar){
+          try{
+            const restoreBtn=bar.contentDocument.querySelector('#restore');
+            if(restoreBtn)restoreBtn.click();
+          }catch(e){}
+        }
+        notice.style.display='none';
+      },800);
+    },400);
+  });
+});
+
+// ── Portfolio filter ──
+document.querySelectorAll('.filter-tab').forEach(tab=>{
+  tab.addEventListener('click',()=>{
+    document.querySelectorAll('.filter-tab').forEach(t=>t.classList.remove('active'));
+    tab.classList.add('active');
+    const f=tab.dataset.filter;
+    document.querySelectorAll('.portfolio-item').forEach(item=>{
+      item.style.display=(f==='all'||item.dataset.category===f)?'':'none';
+    });
+  });
+});
+
+// ── Lightbox ──
+document.querySelectorAll('.portfolio-item img').forEach(img=>{
+  img.addEventListener('click',()=>{
+    document.getElementById('lightboxImg').src=img.src;
+    document.getElementById('lightbox').classList.add('open');
+  });
+});
+document.getElementById('lightboxClose').addEventListener('click',()=>document.getElementById('lightbox').classList.remove('open'));
+document.getElementById('lightbox').addEventListener('click',e=>{if(e.target===document.getElementById('lightbox'))document.getElementById('lightbox').classList.remove('open');});
+
+// ── Scroll reveal ──
+const obs=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');}),{threshold:.08});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
